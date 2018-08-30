@@ -1,0 +1,11 @@
+argparse
+numpy
+scipy
+sklearn
+opencv-python
+datetime
+mxnet
+mxnet-cu90
+scikit-image
+h5py
+
