@@ -8,4 +8,5 @@ mxnet
 mxnet-cu90
 scikit-image
 h5py
+easydict
 

@@ -43,7 +43,7 @@ class EmbeddingGenerator(object):
       self.images = [cv2.imread(path) for path in self.image_paths]
 
   def _compute_identities(self):
-      self.identities = [path.split('/')[3] for path in self.image_paths]
+      self.identities = [(path.split('/')[3]).encode("ascii", "ignore") for path in self.image_paths]
 
   def _calculate_face_vectors(self):
       self.face_vectors = [self.model.get_feature(self.model.get_input(image)) for image in self.images]
@@ -52,7 +52,7 @@ class EmbeddingGenerator(object):
       file_handle =\
           h5py.File(self.output_dir + '/face_vectors-' + file_number(batch_name, 3) + '.h5', 'w')
       file_handle.create_dataset('face_vectors', data=self.face_vectors)
-      file_handle.create_dataset('identities', data=self.identities)
+      file_handle.create_dataset('identities', (len(self.identities),), 'S10', data=self.identities)
       file_handle.close()
 
   def create_batch_vectors(self, start_index, end_index, batch_number):
@@ -74,7 +74,7 @@ def main(arguments):
   total_number = len(os.listdir(arguments.image_dir))
   pool_arguments = range_values_and_batches(arguments, total_number)
   # pool.map(run_job, pool_arguments)
-  print total_number
+  print(total_number)
   run_job([arguments, 0, total_number, 0])
 
 def parse_arguments(argv):
