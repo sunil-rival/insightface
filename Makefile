@@ -1,6 +1,9 @@
-DATASET := lfw
+DATASET := rival_identities
 MODEL := model-r50-am-lfw
 IMAGE_SIZE := 112
+
+TRAINING_DATASET := faces_vgg_112x112
+TRAINING_MODEL := model-r100
 
 generate_embeddings:
 	mkdir -p computed_data/${DATASET}/${MODEL}
@@ -15,4 +18,4 @@ generate_aligned_dataset:
 complete_comparison: generate_embeddings compare
 
 train_model:
-	python src/train_tripletloss.py --logs_base_dir logs/ --models_base_dir models/facenet --data_dir aligned_datasets/${DATASET}_mtcnnpy_${IMAGE_SIZE} --people_per_batch 9 --embedding_size 512 --image_size ${IMAGE_SIZE} --gpu_memory_fraction 0.75 --max_nrof_epochs 100
+	CUDA_VISIBLE_DEVICES='0,1,2,3' python -u src/train_softmax.py --network r100 --loss-type 4 --margin-m 0.5 --data-dir datasets/${TRAINING_DATASET} --prefix models/${TRAINING_MODEL}

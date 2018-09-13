@@ -52,7 +52,7 @@ class EmbeddingGenerator(object):
       file_handle =\
           h5py.File(self.output_dir + '/face_vectors-' + file_number(batch_name, 3) + '.h5', 'w')
       file_handle.create_dataset('face_vectors', data=self.face_vectors)
-      file_handle.create_dataset('identities', (len(self.identities),), 'S10', data=self.identities)
+      file_handle.create_dataset('identities', (len(self.identities),), 'S32', data=self.identities)
       file_handle.close()
 
   def create_batch_vectors(self, start_index, end_index, batch_number):
