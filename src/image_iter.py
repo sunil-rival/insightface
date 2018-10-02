@@ -90,7 +90,7 @@ class FaceImageIter(io.DataIter):
         print('call reset()')
         self.cur = 0
         if self.shuffle:
-          random.shuffle(self.seq)
+          self.seq = random.shuffle(list(self.seq))
         if self.seq is None and self.imgrec is not None:
             self.imgrec.reset()
 
