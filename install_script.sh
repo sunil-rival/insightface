@@ -9,7 +9,7 @@ echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nf
 
 source ~/.bashrc
 
-sudo apt-get install -y zlib1g-dev libbz2-dev libreadline6-dev libsqlite3-dev g++ make libssl-dev libsm-dev libxrender1
+sudo apt-get install -y zlib1g-dev libbz2-dev libreadline6-dev libsqlite3-dev g++ make libssl-dev libsm-dev libxrender1 unzip
 pyenv install 3.6.5
 pip install --upgrade pip
 pip install -r requirements.txt
