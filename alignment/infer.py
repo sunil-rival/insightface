@@ -46,7 +46,7 @@ output = model.get_outputs()[0].asnumpy()
 #print(output[0,80])
 #sys.exit(0)
 filename = "./vis/draw_%s" % img_path.split('/')[-1]
-for i in xrange(output.shape[1]):
+for i in range(output.shape[1]):
   a = output[0,i,:,:]
   a = cv2.resize(a, (image_size[1], image_size[0]))
   ind = np.unravel_index(np.argmax(a, axis=None), a.shape)

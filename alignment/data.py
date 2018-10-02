@@ -206,7 +206,7 @@ class FaceSegIter(DataIter):
       annot = {}
       ul = np.array( (50000,50000), dtype=np.int32)
       br = np.array( (0,0), dtype=np.int32)
-      for i in xrange(hlabel.shape[0]):
+      for i in range(hlabel.shape[0]):
         #hlabel[i] = hlabel[i][::-1]
         h = int(hlabel[i][0])
         w = int(hlabel[i][1])
@@ -245,7 +245,7 @@ class FaceSegIter(DataIter):
       img = img[crop_ul[0]:crop_br[0],crop_ul[1]:crop_br[1],:]
       #print(img.shape, crop_ul, crop_br)
       invalid = False
-      for i in xrange(hlabel.shape[0]):
+      for i in range(hlabel.shape[0]):
           if (hlabel[i]<crop_ul).any() or (hlabel[i] >= crop_br).any():
               invalid = True
           hlabel[i] -= crop_ul
@@ -282,7 +282,7 @@ class FaceSegIter(DataIter):
         #  filename = './vis/raw_%d.jpg' % (self.img_num)
         #  print('save', filename)
         #  draw = data.copy()
-        #  for i in xrange(label.shape[0]):
+        #  for i in range(label.shape[0]):
         #    cv2.circle(draw, (label[i][1], label[i][0]), 1, (0, 0, 255), 2)
         #  scipy.misc.imsave(filename, draw)
 
@@ -333,7 +333,7 @@ class FaceSegIter(DataIter):
           if G==0:
               _g = 1
           #print('shape', label.shape, label_out.shape)
-          for i in xrange(label.shape[0]):
+          for i in range(label.shape[0]):
             pt = label[i].copy()
             pt = pt[::-1]
             #print('before gaussian', label_out[i].shape, pt.shape)
@@ -357,10 +357,10 @@ class FaceSegIter(DataIter):
           
           if self.use_coherent==1:
             cropped2 = np.copy(cropped)
-            for k in xrange(cropped2.shape[2]):
+            for k in range(cropped2.shape[2]):
                 cropped2[:,:,k] = np.fliplr(cropped2[:,:,k])
             label2_out = np.copy(label_out)
-            for k in xrange(label2_out.shape[0]):
+            for k in range(label2_out.shape[0]):
                 label2_out[k,:,:] = np.fliplr(label2_out[k,:,:])
             new_label2_out = np.copy(label2_out)
             for item in self.mirror_set:
@@ -371,9 +371,9 @@ class FaceSegIter(DataIter):
           elif self.use_coherent==2:
             pass
           elif ((self.aug_level>0 and np.random.rand() < 0.5) or self.force_mirror): #flip aug
-              for k in xrange(cropped.shape[2]):
+              for k in range(cropped.shape[2]):
                   cropped[:,:,k] = np.fliplr(cropped[:,:,k])
-              for k in xrange(label_out.shape[0]):
+              for k in range(label_out.shape[0]):
                   label_out[k,:,:] = np.fliplr(label_out[k,:,:])
               new_label_out = np.copy(label_out)
               for item in self.mirror_set:
@@ -383,7 +383,7 @@ class FaceSegIter(DataIter):
               label_out = new_label_out
 
           if G==0:
-              for k in xrange(label.shape[0]):
+              for k in range(label.shape[0]):
                   ind = np.unravel_index(np.argmax(label_out[k], axis=None), label_out[k].shape)
                   label_out[k,:,:] = 0.0
                   label_out[k,ind[0],ind[1]] = 1.0
@@ -408,7 +408,7 @@ class FaceSegIter(DataIter):
         print('save', filename)
         draw = cropped.copy()
         alabel = label_out.copy()
-        for i in xrange(label.shape[0]):
+        for i in range(label.shape[0]):
           a = cv2.resize(alabel[i], (self.input_img_size, self.input_img_size))
           ind = np.unravel_index(np.argmax(a, axis=None), a.shape)
           cv2.circle(draw, (ind[1], ind[0]), 1, (0, 0, 255), 2)

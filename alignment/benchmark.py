@@ -42,7 +42,7 @@ rimg = cv2.resize(img, (image_size[1], image_size[0]))
 img = cv2.cvtColor(rimg, cv2.COLOR_BGR2RGB)
 img = np.transpose(img, (2,0,1)) #3*112*112, RGB
 input_blob = np.zeros( (args.batch_size, 3, image_size[1], image_size[0]),dtype=np.uint8 )
-for i in xrange(args.batch_size):
+for i in range(args.batch_size):
   input_blob[i] = img
 data = mx.nd.array(input_blob)
 print(data.shape)
@@ -51,7 +51,7 @@ label = mx.nd.zeros( (args.batch_size, 84, 64, 64) )
 db = mx.io.DataBatch(data=(data,), label=(label,))
 stat = []
 warmup = 2
-for i in xrange(args.iterations+warmup):
+for i in range(args.iterations+warmup):
   #print(i)
   time_now = datetime.datetime.now()
   model.forward(db, is_train=False)

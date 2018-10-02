@@ -50,7 +50,7 @@ class LossValueMetric(mx.metric.EvalMetric):
     #print('')
     #print(m, theta)
     #print(label[0])
-    #for i in xrange(gt_label.shape[0]):
+    #for i in range(gt_label.shape[0]):
     #    label0 = gt_label[i][0]
     #    c = np.count_nonzero(label0)
     #    ind = np.unravel_index(np.argmax(label0, axis=None), label0.shape)
@@ -76,8 +76,8 @@ class NMEMetric(mx.metric.EvalMetric):
         #print('acc',label.shape, pred_label.shape)
 
         nme = []
-        for b in xrange(pred_label.shape[0]):
-          for p in xrange(pred_label.shape[1]):
+        for b in range(pred_label.shape[0]):
+          for p in range(pred_label.shape[1]):
             heatmap_gt = label[b][p]
             heatmap_pred = pred_label[b][p]
             heatmap_pred = cv2.resize(heatmap_pred, (label.shape[2], label.shape[3]))
@@ -113,7 +113,7 @@ class NMEMetric2(mx.metric.EvalMetric):
         #print(label.ndim)
 
         nme = []
-        for b in xrange(pred_label.shape[0]):
+        for b in range(pred_label.shape[0]):
           record = [None]*6
           item = []
           if label.ndim==4:
@@ -124,7 +124,7 @@ class NMEMetric2(mx.metric.EvalMetric):
               #print(label[b])
               if np.count_nonzero(label[b])==0:
                   continue
-          for p in xrange(pred_label.shape[1]):
+          for p in range(pred_label.shape[1]):
             if label.ndim==4:
                 heatmap_gt = label[b][p]
                 ind_gt = np.unravel_index(np.argmax(heatmap_gt, axis=None), heatmap_gt.shape)
@@ -185,7 +185,7 @@ def main(args):
   ctx = []
   cvd = os.environ['CUDA_VISIBLE_DEVICES'].strip()
   if len(cvd)>0:
-    for i in xrange(len(cvd.split(','))):
+    for i in range(len(cvd.split(','))):
       ctx.append(mx.gpu(i))
   if len(ctx)==0:
     ctx = [mx.cpu()]
@@ -252,7 +252,7 @@ def main(args):
   else:
     lr_steps = [int(x) for x in args.lr_steps.split(',')]
   _a = 40//args.batch_size
-  for i in xrange(len(lr_steps)):
+  for i in range(len(lr_steps)):
     lr_steps[i] *= _a
   print('lr-steps', lr_steps)
   global_step = [0]

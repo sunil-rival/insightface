@@ -353,20 +353,20 @@ def hourglass(data, nFilters, nModules, n, workspace, name, binarize, dcn):
   s = 2
   _dcn = False
   up1 = data
-  for i in xrange(nModules):
+  for i in range(nModules):
     up1 = residual_unit(up1, nFilters, (1,1), True, "%s_up1_%d"%(name,i), binarize, _dcn, 1)
   low1 = mx.sym.Pooling(data=data, kernel=(s, s), stride=(s,s), pad=(0,0), pool_type='max')
-  for i in xrange(nModules):
+  for i in range(nModules):
     low1 = residual_unit(low1, nFilters, (1,1), True, "%s_low1_%d"%(name,i), binarize, _dcn, 1)
   if n>1:
     low2 = hourglass(low1, nFilters, nModules, n-1, workspace, "%s_%d"%(name, n-1), binarize, dcn)
   else:
     low2 = low1
-    for i in xrange(nModules):
+    for i in range(nModules):
       low2 = residual_unit(low2, nFilters, (1,1), True, "%s_low2_%d"%(name,i), binarize, _dcn, 1) #TODO
       #low2 = residual_unit(low2, nFilters, (1,1), True, "%s_low2_%d"%(name,i), False) #TODO
   low3 = low2
-  for i in xrange(nModules):
+  for i in range(nModules):
     low3 = residual_unit(low3, nFilters, (1,1), True, "%s_low3_%d"%(name,i), binarize, _dcn, 1)
   up2 = mx.symbol.Deconvolution(data=low3, num_filter=nFilters, kernel=(s,s), 
       stride=(s, s),
@@ -382,21 +382,21 @@ def hourglass2(data, nFilters, nModules, n, workspace, name, binarize, dcn):
   _dcn = False
   up1 = data
   dilate = 2**(4-n)
-  for i in xrange(nModules):
+  for i in range(nModules):
     up1 = residual_unit(up1, nFilters, (1,1), True, "%s_up1_%d"%(name,i), binarize, _dcn, dilate)
   #low1 = mx.sym.Pooling(data=data, kernel=(s, s), stride=(s,s), pad=(0,0), pool_type='max')
   low1 = data
-  for i in xrange(nModules):
+  for i in range(nModules):
     low1 = residual_unit(low1, nFilters, (1,1), True, "%s_low1_%d"%(name,i), binarize, _dcn, dilate)
   if n>1:
     low2 = hourglass2(low1, nFilters, nModules, n-1, workspace, "%s_%d"%(name, n-1), binarize, dcn)
   else:
     low2 = low1
-    for i in xrange(nModules):
+    for i in range(nModules):
       low2 = residual_unit(low2, nFilters, (1,1), True, "%s_low2_%d"%(name,i), binarize, _dcn, dilate) #TODO
       #low2 = residual_unit(low2, nFilters, (1,1), True, "%s_low2_%d"%(name,i), False) #TODO
   low3 = low2
-  for i in xrange(nModules):
+  for i in range(nModules):
     low3 = residual_unit(low3, nFilters, (1,1), True, "%s_low3_%d"%(name,i), binarize, _dcn, dilate)
   up2 = low3
   #up2 = mx.symbol.Deconvolution(data=low3, num_filter=nFilters, kernel=(s,s), 
@@ -421,7 +421,7 @@ class DLA:
         res = RES(data, self.nFilters, self.nModules, 4, self.workspace, name, dilate, group)
         return res.get()
         #body = data
-        #for i in xrange(self.nModules):
+        #for i in range(self.nModules):
         #    body = residual_unit(body, self.nFilters, (1,1), True, name, False, False, 1)
         #return body
 
@@ -688,14 +688,14 @@ def get_symbol(num_classes, **kwargs):
     use_lin = True
     heatmap = None
 
-    for i in xrange(nStacks):
+    for i in range(nStacks):
       shortcut = body
       if use_DLA>0:
         dla = DLA(body, nFilters, nModules, N+1, workspace, 'dla%d'%(i))
         body = dla.get()
       else:
         body = hourglass(body, nFilters, nModules, N, workspace, 'stack%d_hg'%(i), binarize, dcn)
-      for j in xrange(nModules):
+      for j in range(nModules):
         body = residual_unit(body, nFilters, (1,1), True, 'stack%d_unit%d'%(i,j), binarize, dcn, 1, **kwargs)
       if use_lin:
         _dcn = True if DCN>=2 else False
@@ -736,7 +736,7 @@ def get_symbol(num_classes, **kwargs):
           if use_coherent==1:
             ux = mx.sym.flip(ux, axis=3)
             ux_list = [None]*68
-            for k in xrange(68):
+            for k in range(68):
               if k in mirror_map:
                 vk = mirror_map[k]
                 #print('k', k, vk)
