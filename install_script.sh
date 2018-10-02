@@ -1,6 +1,9 @@
 #!/bin/bash
 
 wget https://github.com/git-lfs/git-lfs/releases/download/v2.5.2/git-lfs-linux-amd64-v2.5.2.tar.gz
+tar zxvf git-lfs-linux-amd64-v2.5.2.tar.gz
+sudo ./install.sh
+sudo git lfs install
 
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
